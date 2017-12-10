@@ -6,42 +6,55 @@ Standley Eugene
 12/8/2017
 */
 
-var pets = arrayOf("parrot","cat", "dog") // size 3 and index range 0-2
-
-var table = arrayOf(
-        intArrayOf(1,2,3),
-        intArrayOf(4,5,6),
-        intArrayOf(7,8,9)
-)
-
 fun main(args: Array<String>){
-    for(i in pets.indices){
-      //1st iteration i = 0
-      //2nd iteration i = 1
-      //3rd iteration i = 2
-      //4rd iteration i = 3 --> for loop finishes
-      println("pets{"+ i +"]= " + pets[i])
+    // use any loop from previous video (for, while, do-while)
+    // sum all number from 1 - 100
+    // print sum to console
+
+    // My solution
+//    var sum = 0
+
+//    for(i in 1 .. 100){
+//        println("Current index: " + i)
+        //sum= sum!!.plus(i) //4950
+//        println("Current sum: " + sum)
+        //sum += i ... did the something but the long way around
+//    }
+//
+//    println(sum)
+
+    // The Answer
+    // while
+    var number = 1
+    var sum = 0
+
+    while(number <= 100){
+        sum += number // sum = sum + number
+        number++
     }
 
-    for(pet in pets){
-      println("pets= " + pet)
+    println("while sum= " + sum)
+
+    number = 1
+    sum = 0
+
+    do {
+        sum += number
+        number ++
+    } while (number <= 100)
+
+    println("do while sum= " +sum)
+
+    sum = 0
+
+    for (n in 1 .. 100){
+        sum+= n
     }
 
-    // using ranges
-    for (value in 1..10 step 2){
-      println("value= " + value)
-    }
-
-    for((index, value) in pets.withIndex()){
-        println("elements at index= " + index + " = " + value)
-    }
+    println("for sum= " +sum)
 
 
-    for (row in 0 until table.size){
-        println("row= " + table[row])
+    sum = (1..100).sum()
 
-        for(colume in 0 until table[row].size){
-            println("number= "+ table[row][colume])
-        }
-    }
+    println("sum with ranges= "+ sum)
 }
