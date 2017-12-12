@@ -7,43 +7,28 @@ Standley Eugene
 */
 
 fun main(args: Array<String>){
+    // create array of string that represent names of peoplet
+    // print all strings/name that start captial letter P in uppercase
+    // find method in string class that checks if staring startswith another string
 
-    val dog = "Dog"
-    val dog2 = String(charArrayOf('D','o','g')) // creates new reference of type string
+    var lists = arrayOf("Paul","Jack","Patrick", "Jason", "Derek", "Eugene")
 
-    println("dog === dog2 => " + (dog === dog2)) // reference equality (point to same point in memory)
-    println("dog == dog2 => " + (dog == dog2)) // structural equality (checks the contain of the string)  Same characters ad length
-
-    val cat = "Cat"
-    val cat2 = String(cat.toCharArray())
-    val cat3 = cat2 // reference to same object
-
-    println("reference equal => " + (cat === cat2))
-    println("reference equal => " + (cat === cat3))
-    println("reference equal => " + (cat2 === cat2))
-
-    // templates
-    println("dog= $dog cat= $cat")
-
-    // raw
-    println(""" this is
-        my dog
-        $dog""")
-
-    // methods from String class
-    var lizard = "Lizard"
-
-    println("lizard first letter= ${lizard[0]}")
-    println("contian= ${lizard.contains("is")}")
-
-    // immutability
-    lizard.toUpperCase()
-
-    println("lizard= $lizard")
-
-    lizard = lizard.toUpperCase() // assigned new value to variable
-
-    println("lizard= $lizard")
+    for(list in lists) if(list.startsWith("P"))
+        println(list.toUpperCase())
 
 
+    for(i in lists.indices){
+        var l = lists[i]
+        if(l.startsWith("P"))
+            println(l.toUpperCase())
+    }
+
+    // while
+    var index = 0
+
+    while(index < lists.size){
+        var l = lists[index]
+        if(l.startsWith("P"))
+            println(l.toUpperCase())
+    }
 }
