@@ -23,7 +23,6 @@ fun main(args: Array<String>){
     printSum(4,5)
 }
 
-
 //private fun getInt(): Int {
 //    // return false // does not compile needs to be assignable to return type
 //    return 10 // assigned to return
