@@ -6,35 +6,40 @@ Standley Eugene
 12/8/2017
 */
 
-var person : String? = null
-var lives : Int = 0
-
-var pets : String? = null
-
 fun main(args: Array<String>){
-    //person.toUpperCase() // compilation error
-    //person!!.toUpperCase() // null pointer exception
+    println("isTrue= ${isTrue()}")
 
-    person = person?.toUpperCase() //  null safe operation
+    var number = getInt()
 
-    println("person= $person")
+    println("number= $number") // 10
 
-    person = "John"
-    person = person?.toUpperCase() // null safe operator
-    println("person= $person")
+    number = increment(number)
 
-    println("live= ${lives == 0}")
+    println("number= $number")
 
-    var anotherPersion : String? = null
-    println("anotherPerson= $anotherPersion")
-    println("anotherPerson null - ${anotherPersion === null}")
-    println("anotherPerson isEmpty= ${anotherPersion.isNullOrEmpty()}")
+    number = sum(number, 3)
+    println("number= $number")
 
-    pets = "Dog"
-    println("pets is null= ${pets === null}")
-    val dog = pets!!.toUpperCase()
-    //val dog = pets?.toUpperCase()
-
-    println("dog= $dog")
-
+    printSum(4,5)
 }
+
+
+//private fun getInt(): Int {
+//    // return false // does not compile needs to be assignable to return type
+//    return 10 // assigned to return
+//}
+
+private  fun getInt(): Int = 10
+
+//private fun isTrue() : Boolean {
+//    return 4 < 10
+//}
+
+private fun isTrue() : Boolean = 4 < 10
+
+private fun increment(number : Int) = number + 1
+
+private fun sum(a: Int, b: Int) = a + b
+
+private fun printSum(a: Int, b: Int) = println("$a + $b = ${a + b}")
+
