@@ -6,29 +6,35 @@ Standley Eugene
 12/8/2017
 */
 
+var person : String? = null
+var lives : Int = 0
+
+var pets : String? = null
+
 fun main(args: Array<String>){
-    // create array of string that represent names of peoplet
-    // print all strings/name that start captial letter P in uppercase
-    // find method in string class that checks if staring startswith another string
+    //person.toUpperCase() // compilation error
+    //person!!.toUpperCase() // null pointer exception
 
-    var lists = arrayOf("Paul","Jack","Patrick", "Jason", "Derek", "Eugene")
+    person = person?.toUpperCase() //  null safe operation
 
-    for(list in lists) if(list.startsWith("P"))
-        println(list.toUpperCase())
+    println("person= $person")
 
+    person = "John"
+    person = person?.toUpperCase() // null safe operator
+    println("person= $person")
 
-    for(i in lists.indices){
-        var l = lists[i]
-        if(l.startsWith("P"))
-            println(l.toUpperCase())
-    }
+    println("live= ${lives == 0}")
 
-    // while
-    var index = 0
+    var anotherPersion : String? = null
+    println("anotherPerson= $anotherPersion")
+    println("anotherPerson null - ${anotherPersion === null}")
+    println("anotherPerson isEmpty= ${anotherPersion.isNullOrEmpty()}")
 
-    while(index < lists.size){
-        var l = lists[index]
-        if(l.startsWith("P"))
-            println(l.toUpperCase())
-    }
+    pets = "Dog"
+    println("pets is null= ${pets === null}")
+    val dog = pets!!.toUpperCase()
+    //val dog = pets?.toUpperCase()
+
+    println("dog= $dog")
+
 }
