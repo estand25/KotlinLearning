@@ -1,22 +1,22 @@
 package learningprogrammingacademy.learning
 
 /*
-learningprogrammingacademy.learning
+learning programming academy.learning
 Standley Eugene
 12/8/2017
 */
 
 fun main(args: Array<String>){
-    var result = sum(1,1)
-    println("sum(1, 1) = $result")
+    showInfo()
+    showInfo("Jimmy")
+    showInfo("Anthony", 10)
+    showInfo(level = 5, name = "Timmy")
 
-    result = sum(1,1, 1)
-    println("sum(1, 1, 1) = $result")
-
-    result = sum(1,1, 1, 1)
-    println("sum(1, 1, 1, 1) = $result")
+    showLevelAndXp(5,1000)
+    showLevelAndXp(xp = 10, level = 3)
+    showLevelAndXp(level = 10, xp = 5000)
 }
 
-private fun sum(a:Int, b:Int) = a + b
-private fun sum(a:Int, b:Int, c:Int) = a + b + c
-private fun sum(a:Int, b:Int, c:Int, d:Int) = a + b + c + d
+private fun showInfo(name: String = "John", level: Int = 2) = println("name = $name level= $level")
+
+private fun showLevelAndXp(level: Int, xp:Int) = println("level = $level xp= $xp")
