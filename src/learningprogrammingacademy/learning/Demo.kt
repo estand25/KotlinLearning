@@ -7,21 +7,16 @@ Standley Eugene
 */
 
 fun main(args: Array<String>){
-    var result = subtract(5,1)
-    println("Subtract(5, 1) = $result")
+    var result = sum(1,1)
+    println("sum(1, 1) = $result")
 
-    result = subtract(5,2,1)
-    println("Subtract(5, 2, 1) = $result")
+    result = sum(1,1, 1)
+    println("sum(1, 1, 1) = $result")
 
-    result = mul(2,4)
-    println("mul(2, 4) = $result")
-
-    val floatResult = mul(2.5f,3.5f)
-    println("mul(2.5f, 3.5f) = $floatResult")
+    result = sum(1,1, 1, 1)
+    println("sum(1, 1, 1, 1) = $result")
 }
 
-private fun subtract(a: Int, b:Int) = a - b
-private fun subtract(a: Int, b:Int, c:Int) = a - b - c
-
-private fun mul(a:Int, b:Int) = a * b
-private fun mul(a:Float, b:Float) = a * b
+private fun sum(a:Int, b:Int) = a + b
+private fun sum(a:Int, b:Int, c:Int) = a + b + c
+private fun sum(a:Int, b:Int, c:Int, d:Int) = a + b + c + d
