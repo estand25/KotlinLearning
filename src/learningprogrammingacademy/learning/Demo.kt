@@ -6,46 +6,44 @@ Standley Eugene
 12/8/2017
 */
 
-class Player {
-    var health = 150
-        set(value) {
-            println("setter block")
-            var newHealth = value
+class Ship {
+    private val bullets = arrayOf("laser", "fire")
 
-            if(value <= 0){
-                newHealth = 0 // keep health at 0
+    var hitpoints = 100
+        private set
+
+    fun fire(){
+        var bullet = bullets[0]
+
+        if(hitpoints > 50){
+            bullet = bullets[1]
+        }
+        println("Firing $bullet")
+    }
+
+    fun takeDamage(amount : Int){
+        if(amount > 0){
+            hitpoints -= amount
+
+            if(hitpoints < 0){
+                hitpoints = 0
             }
-
-            field = newHealth // field keyword used to set value of field
-        }
-
-    val alive
-        get()  = health > 0
-
-    fun reduceHealth(amount: Int){
-        health -= amount
-    }
-
-    fun respawn() {
-        if(!alive){
-            health = 150
         }
     }
-
-    fun printInfo() = println("health = $health alive = $alive")
 }
-
 fun main(args: Array<String>){
-    val player = Player()
-    println("player alive = ${player.alive}")
+    val ship = Ship()
 
-    player.reduceHealth(100)
-    player.printInfo()
+    ship.fire()
+    ship.takeDamage(10)
+    println("ship hp= ${ship.hitpoints}")
 
-    player.reduceHealth(100)
-    player.printInfo()
+    ship.fire()
+    ship.takeDamage(50)
+    println("ship hp= ${ship.hitpoints}")
 
-    player.respawn()
-    player.printInfo()
+    ship.fire()
+    ship.takeDamage(100)
+    println("ship hp= ${ship.hitpoints}")
 }
 
