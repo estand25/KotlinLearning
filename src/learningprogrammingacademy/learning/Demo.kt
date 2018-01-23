@@ -6,8 +6,22 @@ Standley Eugene
 12/8/2017
 */
 
+/**
+ * create interface shooter with method shot void
+ * implement the interface in on class pistolero and archor
+ * pistolero already has to just overrider
+ * archer doesn't have it so you need to implement it
+ * uses same logic as in pistolero
+ * fix attach logic in archor class to stop when not more arrow
+ * when archor reloading print it out
+ * check
+ */
 interface Healable{
     fun heal(amount: Int)
+}
+
+interface Shooter{
+    fun reload(amount: Int)
 }
 
 abstract class Enemy(health: Int, var weapon: String){
@@ -53,7 +67,7 @@ class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
     }
 }
 
-class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"){
+class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"), Shooter{
     init {
         println("Archer init called")
     }
@@ -61,7 +75,8 @@ class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"){
     override fun attack(enemy: Enemy) {
         if(arrowCount <= 0){
             println("No more arrows")
-
+            println("Reloading... arrows")
+            reload(6)
         }
         else{
             super.attack(enemy)
@@ -73,9 +88,13 @@ class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"){
     override fun run() {
         println("Archer running")
     }
+
+    override fun reload(amount: Int) {
+        arrowCount += amount
+    }
 }
 
-class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healable {
+class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healable, Shooter{
     var bulletCount: Int = 6
     set(value) {
         field = value
@@ -92,6 +111,7 @@ class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healabl
 
     override fun attack(enemy: Enemy) {
         if(bulletCount <= 0) {
+            println("Reloading... bullets")
             reload(6)
         } else {
             super.attack(enemy)
@@ -101,7 +121,7 @@ class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healabl
 
     }
 
-    private fun reload(amount: Int) {
+    override fun reload(amount: Int) {
         bulletCount += amount
     }
 
@@ -126,11 +146,11 @@ fun main(args: Array<String>) {
     pikeman.run()
 
     val archer: Enemy = Archer(100, 5)
-    archer.damage = 15
+    archer.damage = 4
     archer.run()
 
     val pistolero: Enemy = Pistolero(100, 6)
-    pistolero.damage = 20
+    pistolero.damage = 5
     pistolero.run()
 
     do {
@@ -144,7 +164,7 @@ fun main(args: Array<String>) {
     println("archer died")
     println("pistolero health= ${pistolero.health}")
 
-    val healable = archer as Healable
+//    val healable = archer as Healable
 
     if(pistolero is Healable){
         //val healable = pistolero as Healable // cast or convert to healert
