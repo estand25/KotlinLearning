@@ -31,15 +31,6 @@ open class Enemy(health: Int, var weapon: String){
     fun takeDamage(damageToTake: Int){
         health -= damageToTake
     }
-//    open fun attack(pikeman: Pikeman){
-//        println("attacking with $weapon")
-//    }
-//
-//    open fun attack(archer: Archer){
-//        println("attacking with $weapon")
-//    }
-
-
 }
 
 class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
@@ -66,22 +57,52 @@ class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"){
     }
 }
 
+class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"){
+    var bulletCount: Int = 6
+    set(value) {
+        field = value
+
+        if(field <= 0){
+            field = 0
+        }
+    }
+
+    init {
+        this.bulletCount = bulletCount
+        println("Pistolero init called")
+    }
+
+    override fun attack(enemy: Enemy) {
+        if(bulletCount <= 0) {
+            reload(6)
+        } else {
+            super.attack(enemy)
+            bulletCount--
+            println("bullets left = $bulletCount")
+        }
+
+    }
+
+    private fun reload(amount: Int) {
+        bulletCount += amount
+    }
+}
+
 fun main(args: Array<String>) {
     val pikeman: Enemy = Pikeman(100, 100)
     pikeman.damage = 40
 
     val archer: Enemy = Archer(100, 5)
-    archer.damage = 60
+    archer.damage = 15
 
-    pikeman.attack(archer)
-    println("Pikeman health= ${pikeman.health}")
+    val pistolero: Enemy = Pistolero(100, 6)
+    pistolero.damage = 20
 
-    archer.attack(pikeman)
-    println("Archer health= ${archer.health}")
+    do {
+        archer.attack(pistolero)
+        println("Archer health= ${archer.health}")
 
-    pikeman.attack(archer)
-    println("Pikeman health= ${pikeman.health}")
-
-    archer.attack(pikeman)
-    println("Archer health= ${archer.health}")
+        pistolero.attack(archer)
+        println("Pistolero health= ${pistolero.health}")
+    } while (pistolero.health > 0 && archer.health > 0)
 }
