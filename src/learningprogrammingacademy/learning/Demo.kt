@@ -6,65 +6,33 @@ Standley Eugene
 12/8/2017
 */
 
-/**
- * extenstion
- * write extension method that will return true if string has even number of characters
- * or false if string has odd number of characters
- * test method in main with few different string
- *
- * StringUtils
- * write method in StringUtils that will calculate sum of two string lengths, or in others words sum of characters
- * in 2 string
- * tip: use modulus operator for even odd testing
- * tip: be carful with null values and empty string
- */
-object StringUtils {
-    fun totalStringLength(a: String?, b: String?): Int{
-        if(a.isNullOrEmpty() && b.isNullOrEmpty())
-            return 0
-        else if(a.isNullOrEmpty())
-            return b!!.length
-        else if(b.isNullOrBlank())
-            return a!!.length
+open class Enemy(var health: Int, var weapon: String){
+    init {
+        println("Enemy init called")
+    }
 
-        return a!!.length + b!!.length
+    fun attack(){
+      println("attacking with $weapon")
     }
 }
 
-fun String?.isLengthEven() = !(this.isNullOrBlank()) && (this!!.length % 2 == 0)
+class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
+    init {
+        println("Pikeman init called")
+    }
+}
+
+class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"){
+    init {
+        println("Archer init called")
+    }
+}
 
 fun main(args: Array<String>){
+    val pikeman = Pikeman(100, 100)
+    pikeman.attack()
 
-    var test: String? = "1234"
-    println("Test = ${test.isLengthEven()}")
-
-    test = "12345"
-    println("Test = ${test.isLengthEven()}")
-
-    test = null
-    println("Test = ${test.isLengthEven()}")
-
-    test = ""
-    println("Test = ${test.isLengthEven()}")
-
-    var a: String? = "123"
-    var b: String? = "123"
-    println("sum length a & b = ${StringUtils.totalStringLength(a,b)}")
-
-    a = ""
-    b = "123"
-    println("sum length a & b = ${StringUtils.totalStringLength(a,b)}")
-
-    a = "123"
-    b = null
-    println("sum length a & b = ${StringUtils.totalStringLength(a,b)}")
-
-    a = null
-    b = null
-    println("sum length a & b = ${StringUtils.totalStringLength(a,b)}")
-
-    a = ""
-    b = ""
-    println("sum length a & b = ${StringUtils.totalStringLength(a,b)}")
+    val archer = Archer(100,5)
+    archer.attack()
 }
 
