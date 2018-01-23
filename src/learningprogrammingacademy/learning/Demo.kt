@@ -6,16 +6,15 @@ Standley Eugene
 12/8/2017
 */
 
-/**
- * create interface shooter with method shot void
- * implement the interface in on class pistolero and archor
- * pistolero already has to just overrider
- * archer doesn't have it so you need to implement it
- * uses same logic as in pistolero
- * fix attach logic in archor class to stop when not more arrow
- * when archor reloading print it out
- * check
- */
+enum class EnemyClassType{
+    LIGHT,
+    HEAVY;
+
+    fun isLight() = this == LIGHT
+
+    fun isHeavy() = this == HEAVY
+}
+
 interface Healable{
     fun heal(amount: Int)
 }
@@ -25,6 +24,7 @@ interface Shooter{
 }
 
 abstract class Enemy(health: Int, var weapon: String){
+    var type = EnemyClassType.LIGHT
     var health: Int = 0
     set(value) {
         field = value
@@ -45,9 +45,22 @@ abstract class Enemy(health: Int, var weapon: String){
         println("Enemy init called")
     }
 
+    fun isLight() = type.isLight()
+
+    fun isHeavy() = type.isHeavy()
+
     open fun attack(enemy: Enemy){
-      println("attacking $enemy with $weapon")
-        enemy.takeDamage(damage)
+        val percentage = (damage *0.1).toInt()
+        var damageToTake = damage
+
+        if(isLight() && enemy.isHeavy()){
+            damageToTake = damage - percentage // 10 % less
+        } else if(isHeavy() && enemy.isLight()){
+            damageToTake = damage + percentage // 10 % more
+        }
+
+        println("attacking $enemy with $weapon")
+        enemy.takeDamage(damageToTake)
     }
 
     fun takeDamage(damageToTake: Int){
@@ -59,6 +72,7 @@ abstract class Enemy(health: Int, var weapon: String){
 
 class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
     init {
+        type = EnemyClassType.HEAVY
         println("Pikeman init called")
     }
 
@@ -142,40 +156,34 @@ class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healabl
 
 fun main(args: Array<String>) {
     val pikeman: Enemy = Pikeman(100, 100)
-    pikeman.damage = 40
+    pikeman.damage = 5
     pikeman.run()
 
     val archer: Enemy = Archer(100, 5)
-    archer.damage = 4
+    archer.damage = 10
     archer.run()
 
     val pistolero: Enemy = Pistolero(100, 6)
-    pistolero.damage = 5
+    pistolero.damage = 20
     pistolero.run()
 
-    do {
-        archer.attack(pistolero)
-        println("Archer health= ${archer.health}")
+    println("pikeman type= ${pikeman.type}")
+    println("archer type= ${archer.type}")
+    println("pistolero type= ${pistolero.type}")
 
-        pistolero.attack(archer)
-        println("Pistolero health= ${pistolero.health}")
-    } while (archer.health > 0)
+    println("pikeman heavy= ${pikeman.isHeavy()} , light= ${pikeman.isLight()}")
+    println("archer heavy= ${archer.isHeavy()} , light= ${archer.isLight()}")
+    println("pistolero heavy= ${pistolero.isHeavy()} , light= ${pistolero.isLight()}")
 
-    println("archer died")
-    println("pistolero health= ${pistolero.health}")
+    pikeman.attack(archer)
+    archer.attack(pikeman)
+    println("pikeman health= ${pikeman.health} archer health = ${archer.health}")
 
-//    val healable = archer as Healable
+    pikeman.attack(pistolero)
+    pistolero.attack(pikeman)
+    println("pikeman health= ${pikeman.health} pistolero health = ${pistolero.health}")
 
-    if(pistolero is Healable){
-        //val healable = pistolero as Healable // cast or convert to healert
-
-        pistolero.heal(10)
-        println("Health= ${pistolero.health}")
-
-        pistolero.heal(-10)
-        println("Health= ${pistolero.health}")
-
-        pistolero.heal(200)
-        println("Health= ${pistolero.health}")
-    }
+    archer.attack(pistolero)
+    pistolero.attack(archer)
+    println("archer health= ${archer.health} pistolero health = ${pistolero.health}")
 }
