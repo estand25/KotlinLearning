@@ -6,44 +6,59 @@ Standley Eugene
 12/8/2017
 */
 
-class Ship {
-    private val bullets = arrayOf("laser", "fire")
+/**
+ *  write class the represents person
+ *
+ *  person has 3 properties/field firtName(String), lastName(String), age (int)
+ *  write setter/ set block for age to limit age between 0 and 100
+ *  create readonly property fullName (firstName + lastName
+ *
+ *  in main create instance of person
+ *
+ *  print firtName, lastName, fullName and age
+ *
+ *  tip: create method in person class to print properties
+ */
 
-    var hitpoints = 100
-        private set
+class Person (var firstName: String,var lastName: String, age: Int) {
+    var age: Int = 0
+        set(value) {
+            println("Setting Block")
+            var newAge = value
 
-    fun fire(){
-        var bullet = bullets[0]
+            if(newAge < 0)
+                newAge = 0
 
-        if(hitpoints > 50){
-            bullet = bullets[1]
+            if(newAge > 100)
+                newAge = 100
+
+            field = newAge
         }
-        println("Firing $bullet")
+
+    init {
+        this.age = age
     }
 
-    fun takeDamage(amount : Int){
-        if(amount > 0){
-            hitpoints -= amount
+    val fullName: String
+        get() = firstName + " " + lastName
 
-            if(hitpoints < 0){
-                hitpoints = 0
-            }
-        }
+    fun printInfo(){
+        println("Person firstName = $firstName, lastName = $lastName, fullName = $fullName , Age= $age")
     }
 }
+
 fun main(args: Array<String>){
-    val ship = Ship()
+    val john = Person("John", "Smith", 25)
+    john.printInfo()
 
-    ship.fire()
-    ship.takeDamage(10)
-    println("ship hp= ${ship.hitpoints}")
+    val jimmy = Person("Jimmy", "Winter", 120)
+    jimmy.printInfo()
 
-    ship.fire()
-    ship.takeDamage(50)
-    println("ship hp= ${ship.hitpoints}")
+    val anthony = Person("Anthony", "Bell", -10)
+    anthony.printInfo()
 
-    ship.fire()
-    ship.takeDamage(100)
-    println("ship hp= ${ship.hitpoints}")
+    println("anthony firstNam= ${anthony.firstName}")
+
+
 }
 
