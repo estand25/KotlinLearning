@@ -6,7 +6,7 @@ Standley Eugene
 12/8/2017
 */
 
-enum class EnemyClassType{
+enum class SoliderClassType {
     LIGHT,
     HEAVY;
 
@@ -15,64 +15,64 @@ enum class EnemyClassType{
     fun isHeavy() = this == HEAVY
 }
 
-interface Healable{
+interface Healable {
     fun heal(amount: Int)
 }
 
-interface Shooter{
+interface Shooter {
     fun reload(amount: Int)
 }
 
-abstract class Enemy(health: Int, var weapon: String){
-    var type = EnemyClassType.LIGHT
+abstract class Solider(health: Int, var weapon: String) {
+    var type = SoliderClassType.LIGHT
     var health: Int = 0
-    set(value) {
-        field = value
+        set(value) {
+            field = value
 
-        if(value < 0){
-            field = 0
-        }
+            if (value < 0) {
+                field = 0
+            }
 
-        if (field > 100){
-            field = 100
+            if (field > 100) {
+                field = 100
+            }
         }
-    }
 
     var damage: Int = 0
 
     init {
         this.health = health
-        println("Enemy init called")
+        println("Solider init called")
     }
 
     fun isLight() = type.isLight()
 
     fun isHeavy() = type.isHeavy()
 
-    open fun attack(enemy: Enemy){
-        val percentage = (damage *0.1).toInt()
+    open fun attack(solider: Solider) {
+        val percentage = (damage * 0.1).toInt()
         var damageToTake = damage
 
-        if(isLight() && enemy.isHeavy()){
+        if (isLight() && solider.isHeavy()) {
             damageToTake = damage - percentage // 10 % less
-        } else if(isHeavy() && enemy.isLight()){
+        } else if (isHeavy() && solider.isLight()) {
             damageToTake = damage + percentage // 10 % more
         }
 
-        println("attacking $enemy with $weapon")
-        enemy.takeDamage(damageToTake)
+        println("attacking $solider with $weapon")
+        solider.takeDamage(damageToTake)
     }
 
-    fun takeDamage(damageToTake: Int){
+    fun takeDamage(damageToTake: Int) {
         health -= damageToTake
     }
 
     abstract fun run()
 }
 
-class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
+class Pikeman(health: Int, var armor: Int) : Solider(health, "Pike") {
     init {
-        type = EnemyClassType.HEAVY
+        type = SoliderClassType.HEAVY
         println("Pikeman init called")
     }
 
@@ -81,19 +81,18 @@ class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
     }
 }
 
-class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"), Shooter{
+class Archer(health: Int, var arrowCount: Int) : Solider(health, "bow"), Shooter {
     init {
         println("Archer init called")
     }
 
-    override fun attack(enemy: Enemy) {
-        if(arrowCount <= 0){
+    override fun attack(solider: Solider) {
+        if (arrowCount <= 0) {
             println("No more arrows")
             println("Reloading... arrows")
             reload(6)
-        }
-        else{
-            super.attack(enemy)
+        } else {
+            super.attack(solider)
             arrowCount--
             println("arrows left = $arrowCount")
         }
@@ -108,27 +107,27 @@ class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"), Shooter{
     }
 }
 
-class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healable, Shooter{
+class Pistolero(health: Int, bulletCount: Int) : Solider(health, "pistol"), Healable, Shooter {
     var bulletCount: Int = 6
-    set(value) {
-        field = value
+        set(value) {
+            field = value
 
-        if(field < 0){
-            field = 0
+            if (field < 0) {
+                field = 0
+            }
         }
-    }
 
     init {
         this.bulletCount = bulletCount
         println("Pistolero init called")
     }
 
-    override fun attack(enemy: Enemy) {
-        if(bulletCount <= 0) {
+    override fun attack(solider: Solider) {
+        if (bulletCount <= 0) {
             println("Reloading... bullets")
             reload(6)
         } else {
-            super.attack(enemy)
+            super.attack(solider)
             bulletCount--
             println("bullets left = $bulletCount")
         }
@@ -144,7 +143,7 @@ class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healabl
     }
 
     override fun heal(amount: Int) {
-        if(amount < 0){
+        if (amount < 0) {
             println("cast heal with negative amount")
             return
         }
@@ -155,15 +154,15 @@ class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healabl
 }
 
 fun main(args: Array<String>) {
-    val pikeman: Enemy = Pikeman(100, 100)
+    val pikeman: Solider = Pikeman(100, 100)
     pikeman.damage = 5
     pikeman.run()
 
-    val archer: Enemy = Archer(100, 5)
+    val archer: Solider = Archer(100, 5)
     archer.damage = 10
     archer.run()
 
-    val pistolero: Enemy = Pistolero(100, 6)
+    val pistolero: Solider = Pistolero(100, 6)
     pistolero.damage = 20
     pistolero.run()
 
