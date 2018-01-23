@@ -6,13 +6,21 @@ Standley Eugene
 12/8/2017
 */
 
-open class Enemy(health: Int, var weapon: String){
+interface Healable{
+    fun heal(amount: Int)
+}
+
+abstract class Enemy(health: Int, var weapon: String){
     var health: Int = 0
     set(value) {
         field = value
 
         if(value < 0){
             field = 0
+        }
+
+        if (field > 100){
+            field = 100
         }
     }
 
@@ -31,11 +39,17 @@ open class Enemy(health: Int, var weapon: String){
     fun takeDamage(damageToTake: Int){
         health -= damageToTake
     }
+
+    abstract fun run()
 }
 
 class Pikeman(health: Int, var armor: Int) : Enemy(health, "Pike"){
     init {
         println("Pikeman init called")
+    }
+
+    override fun run() {
+        println("Pikeman running")
     }
 }
 
@@ -55,14 +69,18 @@ class Archer(health: Int,var arrowCount: Int): Enemy(health,"bow"){
             println("arrows left = $arrowCount")
         }
     }
+
+    override fun run() {
+        println("Archer running")
+    }
 }
 
-class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"){
+class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"), Healable {
     var bulletCount: Int = 6
     set(value) {
         field = value
 
-        if(field <= 0){
+        if(field < 0){
             field = 0
         }
     }
@@ -86,17 +104,34 @@ class Pistolero(health: Int, bulletCount:Int ): Enemy(health, "pistol"){
     private fun reload(amount: Int) {
         bulletCount += amount
     }
+
+    override fun run() {
+        println("Pistolero running")
+    }
+
+    override fun heal(amount: Int) {
+        if(amount < 0){
+            println("cast heal with negative amount")
+            return
+        }
+
+        println("healing with amount= $amount")
+        health += amount
+    }
 }
 
 fun main(args: Array<String>) {
     val pikeman: Enemy = Pikeman(100, 100)
     pikeman.damage = 40
+    pikeman.run()
 
     val archer: Enemy = Archer(100, 5)
     archer.damage = 15
+    archer.run()
 
     val pistolero: Enemy = Pistolero(100, 6)
     pistolero.damage = 20
+    pistolero.run()
 
     do {
         archer.attack(pistolero)
@@ -104,5 +139,23 @@ fun main(args: Array<String>) {
 
         pistolero.attack(archer)
         println("Pistolero health= ${pistolero.health}")
-    } while (pistolero.health > 0 && archer.health > 0)
+    } while (archer.health > 0)
+
+    println("archer died")
+    println("pistolero health= ${pistolero.health}")
+
+    val healable = archer as Healable
+
+    if(pistolero is Healable){
+        //val healable = pistolero as Healable // cast or convert to healert
+
+        pistolero.heal(10)
+        println("Health= ${pistolero.health}")
+
+        pistolero.heal(-10)
+        println("Health= ${pistolero.health}")
+
+        pistolero.heal(200)
+        println("Health= ${pistolero.health}")
+    }
 }
