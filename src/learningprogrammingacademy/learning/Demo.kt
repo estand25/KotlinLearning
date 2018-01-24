@@ -5,50 +5,27 @@ learning programming academy.learning
 Standley Eugene
 12/8/2017
 */
-/*
-    Using knowledge from previous lesson overload - (mius) and * (times) operator in Complex Number class
-    Print to console results of - and * operation
- */
-class ComplexNumber(val real: Float, val imaginary: Float){
-    operator fun plus(other: ComplexNumber): ComplexNumber {
-        return ComplexNumber(real+ other.real, imaginary + other.imaginary)
-    }
 
-    operator fun minus(other: ComplexNumber): ComplexNumber{
-        return ComplexNumber(real - other.real, imaginary - other.imaginary)
-    }
+class Health(var amount: Int)
 
-    operator fun times(other: ComplexNumber): ComplexNumber{
-        //return ComplexNumber(real * other.real, imaginary * other.imaginary)
-        val realResult = real  * other.real - imaginary * other.imaginary
-        val imaginaryResult = imaginary * other.real + real * other.imaginary
+class Weapon(var name: String)
 
-        return ComplexNumber(realResult, imaginaryResult)
-    }
-
-    override fun toString(): String {
-        var sign = "+"
-
-        if(imaginary < 0){
-            sign = "-"
-        }
-
-        return "$real $sign ${Math.abs(imaginary)}"
-    }
+class Soldier(var name: String, var health: Health, var weapon: Weapon){
+    override fun toString() = "name= $name health= ${health.amount} weapon= ${weapon.name}"
 }
 
 fun main(args: Array<String>) {
-    val first = ComplexNumber(2f,2f)
-    val second = ComplexNumber(3f, -5f)
+    //Pickmean
+    val pikemanHealth = Health(100)
+    val pike = Weapon("pike")
+    val pikeman = Soldier("Pikeman", pikemanHealth, pike)
 
-    println("first= $first")
-    println("second= $second")
+    println("pikeman= ${pikeman}")
 
-    val sum = first + second
-    val minus = first - second
-    val multiply = first * second
+    //Archer
+    val archerHealth = Health(80)
+    val bow = Weapon("bow")
+    val archer = Soldier("archer", archerHealth, bow)
 
-    println("sum= $sum")
-    println("minus= $minus")
-    println("multiply= $multiply")
+    println("archer= ${archer}")
 }
